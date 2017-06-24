@@ -1,4 +1,5 @@
 extern crate permutohedron;
+extern crate atty;
 
 static WORDLIST : &str = include_str!("wordlist");
 
@@ -14,11 +15,15 @@ fn main() {
         words.insert(word);
     }
 
+    let isatty = atty::is(atty::Stream::Stdin);
+
     loop {
-        out.write(b"> ");
-        out.flush();
+        if isatty {
+            out.write(b"> ");
+            out.flush();
+        }
         let mut buf = String::with_capacity(10);  // I apologize
-        std::io::stdin().read_line(&mut buf).expect("IO error reading input!");
+        if std::io::stdin().read_line(&mut buf).expect("IO error reading input!") == 0 { break; }
         let mut buf = buf.trim().to_owned().into_bytes(); // I apologize even harder
         
         for permutation in permutohedron::Heap::new(&mut buf) {

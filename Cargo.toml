@@ -5,4 +5,3 @@ authors = ["Corey Richardson <corey@octayn.net>"]
 
 [dependencies]
 permutohedron = "0.2"
-twoway = { version = "0.1.3", features = ["pcmp" ] }
